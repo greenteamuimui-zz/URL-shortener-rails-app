@@ -14,9 +14,21 @@ class ShortenedUrl < ApplicationRecord
     ShortenedUrl.new(user_id: user.id, long_url: long_url, short_url: ShortenedUrl.random_code)
   end
 
+  def num_clicks
+    Visit.select {|v| v.shortenedurl_id == self.id}.count
+  end
+
   belongs_to :submitter,
     primary_key: :id,
     foreign_key: :user_id,
-    class_name: User
+    class_name: :User
 
+  has_many :visits,
+    primary_key: :id,
+    foreign_key: :shortenedurl_id,
+    class_name: :Visit
+
+  has_many :visitors,
+    through: :visits,
+    source: :User
 end
