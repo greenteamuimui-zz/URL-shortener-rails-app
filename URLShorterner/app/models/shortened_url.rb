@@ -19,7 +19,9 @@ class ShortenedUrl < ApplicationRecord
   end
 
   def num_uniques
-    self.visits.select(:user_id).count
+    # self.visits.select(:user_id).count this if for without a distinct-ified visitors association
+    self.visitors.count
+    # Use this after using the distinct-ified version of the has_many association
   end
 
   def num_recent_uniques

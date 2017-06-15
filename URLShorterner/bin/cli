@@ -1,0 +1,21 @@
+p "Input Your email:"
+email = gets.chomp
+
+p "What do you want to do?"
+p "0. Create shortened URL"
+p "1. Visit shortened URL"
+ans = gets.chomp
+
+if ans = 0
+  p "Type in your long url"
+  long_url = gets.chomp
+  short_url = ShortenedUrl.user_factory(user, long_url)
+  p "Short url is #{short_url[:short_url]}"
+  p "Goodbye!"
+elsif ans = 1
+  p "Type in the shortened URL"
+  short_url = gets.chomp
+  long_url = SELECT :long_url FROM shortened_urls
+  p "Launching "
+  p "Goodbye!"
+end
