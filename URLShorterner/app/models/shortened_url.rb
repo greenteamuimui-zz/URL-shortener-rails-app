@@ -15,7 +15,15 @@ class ShortenedUrl < ApplicationRecord
   end
 
   def num_clicks
-    Visit.select {|v| v.shortenedurl_id == self.id}.count
+    Visit.select {|v| v.shortenedurl_id == self.id}
+  end
+
+  def num_uniques
+    self.visits.select(:user_id).count
+  end
+
+  def num_recent_uniques
+    self.visits.select(:user_id).where("created_at > ?",10.minutes.ago).count
   end
 
   belongs_to :submitter,
@@ -29,6 +37,7 @@ class ShortenedUrl < ApplicationRecord
     class_name: :Visit
 
   has_many :visitors,
+    Proc.new { distinct },
     through: :visits,
     source: :User
 end
